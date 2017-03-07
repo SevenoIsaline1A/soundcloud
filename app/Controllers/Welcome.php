@@ -10,6 +10,8 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 
+use App\Models\Chanson;
+
 use View;
 
 
@@ -26,6 +28,21 @@ class Welcome extends Controller
     {
         $message = __('Hello, welcome from the welcome controller! <br/>
 this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
+        
+        $c = Chanson::find(1);
+        $c->fichier = 'toto';
+        $c->save();
+        
+        /*$c = new Chanson();
+        $c ->nom = "test";
+        $c ->duree = "00:02:00";
+        $c ->fichier = "blabla";
+        $c ->post_date = "2017-07-03";
+        $c ->style = "Rock";
+        $c ->utilisateur_id = 1;
+        $c ->save();return View::make('Welcome/Welcome')
+            ->shares('title', __('Welcome'))
+            ->with('welcomeMessage', $message);*/
 
         return View::make('Welcome/Welcome')
             ->shares('title', __('Welcome'))
