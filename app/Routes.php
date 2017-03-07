@@ -13,5 +13,6 @@
 // The default Routing
 Route::get('/',       'Welcome@index');
 Route::get('subpage', 'Welcome@subPage');
+Route::get('about','Welcome@about' );
 
 /** End default Routes */
