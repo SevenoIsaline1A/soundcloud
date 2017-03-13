@@ -36,6 +36,14 @@ Assets::css([
     theme_url('css/style.css', 'Bootstrap'),
 ]);
 
+Assets::js([
+    'https://code.jquery.com/jquery-1.12.4.min.js',
+    vendor_url('dist/js/bootstrap.min.js', 'twbs/bootstrap'),
+]);
+
+echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
+
+
 echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
 ?>
 </head>
@@ -55,7 +63,9 @@ echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
 
 <div class="container">
     <p>
-        <img src='<?= theme_url('images/nova.png', 'Bootstrap'); ?>' alt='<?= Config::get('app.name', SITETITLE); ?>'>
+<!--        <img src='--><?//= theme_url('images/nova.png', 'Bootstrap'); ?><!--' alt='--><?//= Config::get('app.name', SITETITLE); ?><!--'>-->
+        <audio id="player" controls="controls">
+        </audio>
     </p>
 
     <?= $content; ?>
@@ -79,12 +89,6 @@ echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
 </footer>
 
 <?php
-Assets::js([
-    'https://code.jquery.com/jquery-1.12.4.min.js',
-    vendor_url('dist/js/bootstrap.min.js', 'twbs/bootstrap'),
-]);
-
-echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
 
 echo isset($footer) ? $footer : ''; // Place to pass data / plugable hook zone
 ?>
