@@ -60,7 +60,7 @@ this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
 
     public function creechanson()
     {
-        if( Input::has('nom') &&
+        if (Input::has('nom') &&
             Input::has('style') &&
             Input::hasFile('chanson') &&
             Input::file('chanson')->isValid()) {
