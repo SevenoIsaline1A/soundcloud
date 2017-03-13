@@ -19,6 +19,6 @@ Route::get('/param/{id}', 'Welcome@param') -> where('id','[0-9]+');
 
 // Création upload
 Route::get("chanson/nouvelle", "Welcome@formupload");
-Route::post("chanson/cree", "Welcome@formupload");
+Route::post("chanson/cree", "Welcome@creechanson");
 
 /** End default Routes */

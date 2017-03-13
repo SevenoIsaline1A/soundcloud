@@ -11,7 +11,9 @@ namespace App\Controllers;
 use App\Core\Controller;
 
 use App\Models\Chanson;
-
+use Nova\Support\Facades\Auth;
+use Nova\Support\Facades\Input;
+use Nova\Support\Facades\Redirect;
 use View;
 
 
@@ -47,12 +49,45 @@ this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
         return View::make('Welcome/Welcome')
             ->shares('title', __('Welcome'))
             ->with('welcomeMessage', $message);
+//            ->with('all', $all);
     }
 
     public function formupload()
     {
         return View::make('Welcome/formupload')
-        ->shares('titles', 'nouvelle');
+            ->shares('title', 'nouvelle');
+    }
+
+    public function creechanson()
+    {
+        if( Input::has('nom') &&
+            Input::has('style') &&
+            Input::hasFile('chanson') &&
+            Input::file('chanson')->isValid()) {
+            $file = Input::file("chanson")->getClientOriginalName();
+            $f = Input::file("chanson")->move("assets/images".Auth::user()->username, $file);
+            $c = new Chanson();
+            $c->nom = Input::get('nom');
+            $c->style = Input::get('style');
+            $c->fichier = "/".$f;
+            $c->utilisateur_id = Auth::id();
+            $c->duree="";
+            $c->post_date = date('Y-m-d h:i:s');
+            $c->save();
+            return Redirect::to('/');
+        }
+
+
+        echo "<pre>";
+        echo "<br />";
+
+        print_r($_POST);
+
+        echo "<br />";
+        print_r($_FILES);
+
+        echo "</pre>";
+        die(1);
     }
 
     /**
