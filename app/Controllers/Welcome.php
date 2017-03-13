@@ -29,9 +29,9 @@ class Welcome extends Controller
         $message = __('Hello, welcome from the welcome controller! <br/>
 this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
         
-        $c = Chanson::find(1);
-        $c->fichier = 'toto';
-        $c->save();
+//        $c = Chanson::find(1);
+//        $c->fichier = 'toto';
+//        $c->save();
         
         /*$c = new Chanson();
         $c ->nom = "test";
@@ -47,6 +47,12 @@ this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
         return View::make('Welcome/Welcome')
             ->shares('title', __('Welcome'))
             ->with('welcomeMessage', $message);
+    }
+
+    public function formupload()
+    {
+        return View::make('Welcome/formupload')
+        ->shares('titles', 'nouvelle');
     }
 
     /**
