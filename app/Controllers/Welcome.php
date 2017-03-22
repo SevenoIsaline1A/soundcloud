@@ -62,14 +62,22 @@ this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
     {
         if (Input::has('nom') &&
             Input::has('style') &&
+            Input::has('artist') &&
+            Input::has('album') &&
+            Input::hasFile('cover') &&
             Input::hasFile('chanson') &&
             Input::file('chanson')->isValid()) {
             $file = Input::file("chanson")->getClientOriginalName();
-            $f = Input::file("chanson")->move("assets/images".Auth::user()->username, $file);
+            $cover = Input::file("cover")->getClientOriginalName();
+            $f = Input::file("chanson")->move("assets/images/".Auth::user()->username, $file);
+            $g = Input::file("cover")->move("assets/images/".Auth::user()->username, $cover);
             $c = new Chanson();
             $c->nom = Input::get('nom');
             $c->style = Input::get('style');
+            $c->artist = Input::get('artist');
+            $c->album = Input::get('album');
             $c->fichier = "/".$f;
+            $c->cover = "/".$g;
             $c->utilisateur_id = Auth::id();
             $c->duree="";
             $c->post_date = date('Y-m-d h:i:s');

@@ -1,8 +1,12 @@
 <?php
 foreach ($all as $c) {
-    echo $c->nom . " Uploadé par " .$c->utilisateur->username .
-        "<a href='#' class='listen' data-file='$c->fichier'>Listen</a>"
-        ."<br />";
+//  Pour afficher la jaquette : ."<img href='#' class='cover' src='$c->cover' />"
+    echo "Chanson : ".$c->nom."<br />".
+        "Artiste : ".$c->artist."<br />".
+        "Album : ".$c->album."<br />".
+        "Style : ".$c->style."<br />".
+        "Uploadé par : ".$c->utilisateur->username."<br />".
+        "<a href='#' class='listen' data-file='$c->fichier'>Listen</a>"."<br />";
 }
 ?>
 
