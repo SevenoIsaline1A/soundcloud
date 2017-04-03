@@ -11,6 +11,9 @@ namespace App\Controllers;
 use App\Core\Controller;
 
 use App\Models\Chanson;
+use App\Models\Playlist;
+use App\Models\User;
+use Composer\DependencyResolver\Request;
 use Nova\Support\Facades\Auth;
 use Nova\Support\Facades\Input;
 use Nova\Support\Facades\Redirect;
@@ -64,6 +67,27 @@ this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
             Input::has('style') &&
             Input::has('artist') &&
             Input::has('album') &&
+            Input::hasFile('chanson') &&
+            Input::file('chanson')->isValid()) {
+            $file = Input::file("chanson")->getClientOriginalName();
+            $f = Input::file("chanson")->move("assets/images/".Auth::user()->username, $file);
+            $c = new Chanson();
+            $c->nom = Input::get('nom');
+            $c->style = Input::get('style');
+            $c->artist = Input::get('artist');
+            $c->album = Input::get('album');
+            $c->fichier = "/".$f;
+            $c->utilisateur_id = Auth::id();
+            $c->duree="";
+            $c->post_date = date('Y-m-d h:i:s');
+            $c->save();
+            return Redirect::to('/');
+        }
+
+        if (Input::has('nom') &&
+            Input::has('style') &&
+            Input::has('artist') &&
+            Input::has('album') &&
             Input::hasFile('cover') &&
             Input::hasFile('chanson') &&
             Input::file('chanson')->isValid()) {
@@ -96,6 +120,51 @@ this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
 
         echo "</pre>";
         die(1);
+    }
+
+    public function utilisateur($id){
+        $u = User::find($id);
+        if ($u==false){
+            return View::make('Error/404')
+                ->shares('title','non trouve');
+        }
+        $playlists =
+            Playlist::whereRaw('utilisateur_id=?', array($id))->get();
+        $all =
+            Chanson::whereRaw('utilisateur_id=?', array($id))->get();
+        return View::make('Welcome/utilisateur')
+            ->shares('title', 'About')
+            ->with ('user', $u)
+            ->with ('all', $all)
+            ->with ('playlists', $playlists);
+    }
+
+    public function creeplaylist (){
+        $p = new Playlist();
+        $p ->nom= Input::get('playlist');
+        $p ->utilisateur_id = Auth::id();
+        $p ->save();
+
+        if (Request::ajax()) {
+            $playlists =
+                Playlist::whereRaw('utilisateur_id=?', array(Auth::id()))->get();
+            return View::fetch('Welcome/playlists',array('playlists' => $playlists));
+        }
+
+        return Redirect::to('/');
+    }
+
+    public function follow($idasuivre){
+        if (Auth::id() == false)
+            return Redirect::to('/login');
+        $u = User::find(idasuivre);
+        if ($u == false)
+            return View::make('Error/404')
+                ->shares('title', 'non trouve');
+
+        Auth::user()->suit()->attach($idasuivre);
+        return Redirect::back();
+
     }
 
     /**
