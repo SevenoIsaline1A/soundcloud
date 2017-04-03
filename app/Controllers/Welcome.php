@@ -15,6 +15,7 @@ use App\Models\Playlist;
 use App\Models\User;
 use Composer\DependencyResolver\Request;
 use Nova\Support\Facades\Auth;
+use Nova\Support\Facades\HTML;
 use Nova\Support\Facades\Input;
 use Nova\Support\Facades\Redirect;
 use View;
@@ -155,16 +156,18 @@ this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
     }
 
     public function follow($idasuivre){
-        if (Auth::id() == false)
-            return Redirect::to('/login');
-        $u = User::find(idasuivre);
+        $u = User::find($idasuivre);
         if ($u == false)
             return View::make('Error/404')
                 ->shares('title', 'non trouve');
 
         Auth::user()->suit()->attach($idasuivre);
         return Redirect::back();
+    }
 
+    public function unfollow($idstopasuivre){
+        Auth::user()->suit()->detach($idstopasuivre);
+        return Redirect::back();
     }
 
     /**
