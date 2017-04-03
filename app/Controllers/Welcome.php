@@ -155,6 +155,10 @@ this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
         return Redirect::to('/');
     }
 
+    public function addtoplaylist($plid, $chid){
+        //Manque des trucs
+    }
+
     public function follow($idasuivre){
         $u = User::find($idasuivre);
         if ($u == false)
@@ -168,6 +172,11 @@ this content can be changed in <code>/app/Views/Welcome/Welcome.php</code>');
     public function unfollow($idstopasuivre){
         Auth::user()->suit()->detach($idstopasuivre);
         return Redirect::back();
+    }
+
+    public function formAddToPlaylist($idchanson){
+        return View::fetch('Welcome/formAddToPlaylist',
+            array('playlists' => Auth::user()->playlists(), 'idchanson'=>$idchanson));
     }
 
     /**

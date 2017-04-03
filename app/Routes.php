@@ -37,4 +37,8 @@ if (\Nova\Support\Facades\Auth::check()==true){
     Route::get('/addtoplaylist/{plid}/{chid}', 'Welcome@addtoplaylist')
         -> where ('plid', '[0-9]+')
         -> where ('chid', '[0-9]+');
+
+    Route::get("/allplaylists/{idchanson}", 'Welcome@formAddToPlaylist')
+        ->where('idchanson', '[0-9]+');
+
 }

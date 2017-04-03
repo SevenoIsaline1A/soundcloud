@@ -1,5 +1,6 @@
 <?php
 include('chansons.php');
+include('playlists.php');
 ?>
 <script>
 $(document).ready(function () {
@@ -15,7 +16,7 @@ $(document).ready(function () {
                 $("#allplaylists").html(data);
             },
             error: function(jgXHR, textStatus, errorThrown){
-                console.log("lol");
+                console.log("Ah!");
             }
         })
     })
